@@ -1,9 +1,9 @@
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactsBook } from './App.staled';
-
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { useState } from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 const startContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -13,47 +13,28 @@ const startContacts = [
 ];
 
 export const App = () => {
-  const [contacts, setContacts] = useState(startContacts);
+  const [contacts, setContacts] = useLocalStorage(
+    'current-contacts',
+    startContacts
+  );
   const [filter, setFilter] = useState('');
-
-  //   componentDidMount() {
-  //     const saveContacts = localStorage.getItem('current-contacts');
-  //     if (saveContacts !== null) {
-  //       this.setState({
-  //         contacts: JSON.parse(saveContacts),
-  //       });
-  //     }
-  //   }
-
-  //   componentDidUpdate(_, prevSate) {
-  //     const { contacts: prevContacts } = prevSate;
-  //     const { contacts: currentContacts } = this.state;
-  //     if (prevContacts.length !== currentContacts.length) {
-  //       localStorage.setItem('current-contacts', JSON.stringify(currentContacts));
-  //     }
-  //   }
 
   const handleAddContact = newContact => {
     contacts.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     )
       ? alert(`${newContact.name} is already in contacts`)
-      : setContacts(prevState => [...contacts, ...newContact]);
+      : setContacts(state => [...contacts, newContact]);
   };
 
   const handleChangeNameFilter = newName => {
-    setFilter({
-      newName,
-    });
+    setFilter(newName);
   };
 
   const resetContacts = () => {
     window.confirm(
       'Are you sure you want to return Contacts to their starting positions?'
-    ) &&
-      setContacts({
-        startContacts,
-      });
+    ) && setContacts(startContacts);
   };
 
   const getVisibleContact = () => {
@@ -61,16 +42,12 @@ export const App = () => {
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
-  // const { filter } = this.state;
+
   const visibleContact = getVisibleContact();
 
   const deleteContact = contactId => {
-    setContacts({contacts.filter(
-          contact => contact.id !== contactId
-        )
-      })
-    };
- 
+    setContacts(state => state.filter(contact => contact.id !== contactId));
+  };
 
   return (
     <ContactsBook>
