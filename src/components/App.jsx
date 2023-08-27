@@ -24,7 +24,7 @@ export const App = () => {
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     )
       ? alert(`${newContact.name} is already in contacts`)
-      : setContacts(state => [...contacts, newContact]);
+      : setContacts(ps => [...contacts, newContact]);
   };
 
   const handleChangeNameFilter = newName => {
@@ -46,7 +46,7 @@ export const App = () => {
   const visibleContact = getVisibleContact();
 
   const deleteContact = contactId => {
-    setContacts(state => state.filter(contact => contact.id !== contactId));
+    setContacts(ps => ps.filter(contact => contact.id !== contactId));
   };
 
   return (
