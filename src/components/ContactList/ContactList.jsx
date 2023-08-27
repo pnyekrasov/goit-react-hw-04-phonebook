@@ -3,15 +3,11 @@ import {
   ListItem,
   ContactCard,
   ButtonDelete,
-  ButtonReset,
 } from './ContactList.styled';
 
-export const ContactList = ({ onReset, items, onDelete }) => {
+export const ContactList = ({ items, onDelete }) => {
   return (
     <List>
-      <ButtonReset type="button" onClick={onReset}>
-        Reset
-      </ButtonReset>
       {items.map(({ id, name, number }) => (
         <ListItem key={id}>
           <ContactCard>

@@ -4,6 +4,7 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { useState } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { ButtonReset } from './ContactList/ContactList.styled';
 
 const startContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -19,7 +20,7 @@ export const App = () => {
   );
   const [filter, setFilter] = useState('');
 
-  const handleAddContact = newContact => {
+  const addContact = newContact => {
     contacts.find(
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     )
@@ -52,15 +53,14 @@ export const App = () => {
   return (
     <ContactsBook>
       <h1>Phonebook</h1>
-      <ContactForm onAdd={handleAddContact} />
+      <ContactForm onAdd={addContact} />
 
       <h2>Contacts</h2>
       <Filter nameFilter={filter} onChange={handleChangeNameFilter} />
-      <ContactList
-        onReset={resetContacts}
-        items={visibleContact}
-        onDelete={deleteContact}
-      />
+      <ButtonReset type="button" onClick={resetContacts}>
+        Reset
+      </ButtonReset>
+      <ContactList items={visibleContact} onDelete={deleteContact} />
     </ContactsBook>
   );
 };
